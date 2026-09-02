@@ -1,0 +1,5 @@
+# Benchmark datasets -- regenerate with ./data/generate.sh
+data/*.parquet
+
+# Benchmark run output
+results/
