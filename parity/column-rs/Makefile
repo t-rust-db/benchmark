@@ -2,7 +2,7 @@
 
 .DEFAULT_GOAL := help
 
-.PHONY: help data run run-large
+.PHONY: help data test run run-large
 
 help: ## Show this help
 	@echo ""
@@ -16,6 +16,11 @@ help: ## Show this help
 
 data: ## Generate small+medium+large benchmark datasets (requires duckdb on PATH)
 	./data/generate.sh
+
+# === Test ===
+
+test: ## Smoke-run one parity query at small size (1K rows, no warmup, 1 run). Set COLUMN_RS=<path> to pick a binary
+	WARMUP=0 MIN_RUNS=1 ./run.sh small scan
 
 # === Run ===
 
