@@ -1,0 +1,20 @@
+[package]
+name = "sqlite-rs-parity"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "Apache-2.0"
+description = "Oracle parity suite for t-rust-db/sqlite-rs: the same SQL through sqlite-rs and the pinned sqlite3, compared per value block"
+
+[lib]
+path = "src/lib.rs"
+
+# Library-level checks (v01's dump comparison) link the crate under test;
+# everything else drives the `sqlite-rs` CLI binary resolved at run time
+# (see README: $SQLITE_RS -> PATH -> ../../../sqlite-rs/target/release).
+[dev-dependencies]
+sqlite-rs = { git = "https://github.com/t-rust-db/sqlite-rs", tag = "v0.19.0", default-features = false }
+
+[[test]]
+name = "parity"
+path = "tests/parity/main.rs"
