@@ -1,0 +1,54 @@
+[package]
+name = "sqlite-rs-perf"
+version = "0.1.0"
+edition = "2021"
+publish = false
+license = "Apache-2.0"
+description = "Performance benchmarks for t-rust-db/sqlite-rs: tier 1 engine-to-engine (criterion, vs libsqlite3 via rusqlite), tier 2 CLI-to-CLI (hyperfine, vs sqlite3)"
+
+[lib]
+path = "src/lib.rs"
+
+[dev-dependencies]
+# The crate under test, pinned by tag; bump with each sqlite-rs release.
+sqlite-rs = { git = "https://github.com/t-rust-db/sqlite-rs", tag = "v0.20.1", default-features = false }
+criterion = "0.8"
+# Deliberately no `bundled` feature: tier-1 benching compares against the
+# *pinned* oracle (the same sqlite3 gen_fixtures.sh and sqlite-rs's corpus
+# use), not whatever SQLite version rusqlite vendors. `tools/bench_env.sh`
+# points the build at the pinned keg via SQLITE3_LIB_DIR/SQLITE3_INCLUDE_DIR;
+# `benches/engine.rs` asserts the linked version at run time.
+rusqlite = "0.32"
+
+[[bench]]
+name = "engine"
+harness = false
+
+[[bench]]
+name = "crud"
+harness = false
+
+[[bench]]
+name = "v6"
+harness = false
+
+[[bench]]
+name = "skip_scan"
+harness = false
+
+[[bench]]
+name = "compile_path"
+harness = false
+
+# Quick wall-clock demos (rowid seek vs scan, indexed vs unindexed JOIN);
+# shells out to the pinned oracle for its fixtures, so `test = false` keeps
+# it out of a bare `cargo test` — run via `make point-lookup`.
+[[test]]
+name = "point_lookup_perf"
+path = "tests/point_lookup.rs"
+test = false
+
+[profile.bench]
+lto = "thin"
+codegen-units = 1
+debug = true

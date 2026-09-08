@@ -7,3 +7,4 @@ all performance benchmarks
 |---|---|
 | `parity/column-rs` | column-rs vs DuckDB performance parity |
 | `parity/sqlite-rs` | sqlite-rs vs pinned sqlite3 oracle parity suite (the only home of full oracle parity testing for sqlite-rs) |
+| `perf/sqlite-rs` | sqlite-rs performance benchmarks: tier 1 criterion vs libsqlite3, tier 2 hyperfine CLI vs sqlite3, `results/bench-status.json` snapshot |
