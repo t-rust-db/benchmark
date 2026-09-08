@@ -13,7 +13,7 @@ path = "src/lib.rs"
 # everything else drives the `sqlite-rs` CLI binary resolved at run time
 # (see README: $SQLITE_RS -> PATH -> ../../../sqlite-rs/target/release).
 [dev-dependencies]
-sqlite-rs = { git = "https://github.com/t-rust-db/sqlite-rs", tag = "v0.20.0", default-features = false }
+sqlite-rs = { git = "https://github.com/t-rust-db/sqlite-rs", tag = "v0.20.1", default-features = false }
 
 [[test]]
 name = "parity"
