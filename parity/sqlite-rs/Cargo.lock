@@ -10,13 +10,13 @@ checksum = "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
 
 [[package]]
 name = "db-core"
-version = "0.61.0"
-source = "git+https://github.com/t-rust-db/db-core?tag=v0.61.0#6e8c89232514d5973fd2e85e16ce30c9dc78d332"
+version = "0.70.1"
+source = "git+https://github.com/t-rust-db/db-core?tag=v0.70.1#db6898c5ca56f40a111778e65aea0051ab8c8f66"
 
 [[package]]
 name = "db-storage"
-version = "0.5.6"
-source = "git+https://github.com/t-rust-db/db-storage?tag=v0.5.6#209516ccc17cc011edaf918b1338500be5b8d531"
+version = "0.6.1"
+source = "git+https://github.com/t-rust-db/db-storage?tag=v0.6.1#1e93a9eba99c1a9b9e04db973e592d3c3b2b2412"
 dependencies = [
  "db-core",
  "memmap2",
@@ -49,8 +49,8 @@ dependencies = [
 
 [[package]]
 name = "sqlite-rs"
-version = "0.19.0"
-source = "git+https://github.com/t-rust-db/sqlite-rs?tag=v0.19.0#6ad2387fb8aa191643b68ed6619ead97631c5986"
+version = "0.20.0"
+source = "git+https://github.com/t-rust-db/sqlite-rs?tag=v0.20.0#5dce4f6ec426ccdca422ca1317859547250b4f0d"
 dependencies = [
  "db-core",
  "db-storage",
