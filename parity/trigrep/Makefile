@@ -2,7 +2,7 @@
 
 .DEFAULT_GOAL := help
 
-.PHONY: help data test run run-large
+.PHONY: help test run
 
 help: ## Show this help
 	@echo ""
@@ -12,20 +12,12 @@ help: ## Show this help
 	  $(MAKEFILE_LIST)
 	@echo ""
 
-# === Data ===
-
-data: ## Generate small+medium+large synthetic corpora
-	./data/generate.sh
-
 # === Test ===
 
-test: ## Smoke-run one query at small size (200 files, no warmup, 1 run). Set TG=<path> to pick a binary
-	WARMUP=0 MIN_RUNS=1 ./run.sh small rare_literal
+test: ## Smoke-run one query, no warmup, 1 run. Set TG/CORPUS_ROOT=<path> to override
+	WARMUP=0 MIN_RUNS=1 ./run.sh rare_literal
 
 # === Run ===
 
-run: ## Run the parity benchmark at medium size (5,000 files). Set TG/RG/TGREP=<path> to pick binaries
-	./run.sh medium
-
-run-large: ## Run the parity benchmark at large size (50,000 files)
-	./run.sh large
+run: ## Run every query against the default corpus (the t-rust-db org checkout). Set TG/RG/TGREP/CORPUS_ROOT=<path> to override
+	./run.sh

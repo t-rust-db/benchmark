@@ -1,5 +1,2 @@
-# Benchmark corpus -- regenerate with ./data/generate.sh
-corpus/
-
 # Benchmark run output
 results/*/

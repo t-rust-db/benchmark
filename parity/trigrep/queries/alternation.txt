@@ -1,12 +1,13 @@
-# Two rare literals joined by |. Measured (2026-09-09, medium size):
-# trigrep gets NO benefit here -- it lands at the same floor as
-# common_literal, not faster. Verified, not assumed: trigrep's required-
-# trigram extraction is conservative by design (its own search.rs comment:
-# "Classes, alternations and optional repetitions contribute nothing" --
-# more candidates, never fewer, never a false negative). A top-level `|`
+# Two real, verified single-hit literals from different files
+# (tests/corpus/crash_torture_test.rs and src/dump.rs) joined by |.
+# trigrep gets NO benefit here -- same floor as common_literal, not
+# faster. Verified, not assumed: trigrep's required-trigram extraction
+# is conservative by design (its own search.rs comment: "Classes,
+# alternations and optional repetitions contribute nothing" -- more
+# candidates, never fewer, never a false negative). A top-level `|`
 # contributes zero required trigrams regardless of what either side is,
-# so this query forces a full scan exactly like common_literal.txt and
-# short_class.txt do, for a third, distinct reason: not "too common" (the
-# term is rare), not "no 3-byte literal" (both sides have one), but "the
-# extractor doesn't look inside an alternation at all".
-trigrep_rare_marker|value_deadbeef
+# so this forces a full scan for a third, distinct reason from
+# common_literal.txt and short_class.txt: not "too common", not "no
+# 3-byte literal", but "the extractor doesn't look inside an
+# alternation at all".
+recover_hot_journal|bootstrap_page_size
