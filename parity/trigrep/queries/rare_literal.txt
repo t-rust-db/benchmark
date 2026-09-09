@@ -1,5 +1,7 @@
-# Present in exactly one file in a hundred (see data/generate.sh's
-# NEEDLE_UNIQUE marker): the case a trigram index exists for. A
-# non-indexed tool (ripgrep) still scans every file; an indexed one
-# narrows to the ~1% that can possibly match before reading any of them.
-trigrep_rare_marker
+# A real, verified single-hit literal (2026-09-09, in the default corpus,
+# ../../../sqlite-rs, scoped to exactly what `git ls-files --others
+# --cached --exclude-standard` reports -- trigrep's own view): defined
+# in exactly one file, tests/corpus/crash_torture_test.rs. Re-verify if
+# the tree has moved on -- the query still runs either way, it just
+# stops demonstrating a single-file narrow.
+recover_hot_journal
