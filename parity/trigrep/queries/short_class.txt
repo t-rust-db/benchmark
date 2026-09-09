@@ -1,0 +1,5 @@
+# A single-character class: no 3-byte literal run exists to narrow on, so
+# every indexed tool scans everything it indexed too -- same floor as
+# common_literal.txt, from a different cause (no extractable trigram
+# rather than a too-common one).
+[xyz]
