@@ -1,0 +1,5 @@
+# Present in nearly every file (the four common tokens rotate through all
+# of them): the worst case for a trigram index -- every file is a
+# candidate, so narrowing buys nothing and the tool falls back to
+# scanning everything it indexed. Measures the floor, not the ceiling.
+fn value_

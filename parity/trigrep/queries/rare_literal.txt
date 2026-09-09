@@ -1,0 +1,5 @@
+# Present in exactly one file in a hundred (see data/generate.sh's
+# NEEDLE_UNIQUE marker): the case a trigram index exists for. A
+# non-indexed tool (ripgrep) still scans every file; an indexed one
+# narrows to the ~1% that can possibly match before reading any of them.
+trigrep_rare_marker

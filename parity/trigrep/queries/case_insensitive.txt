@@ -1,0 +1,5 @@
+# -i forces a full scan even with an index built (trigrep's index is
+# case-sensitive by construction, documented in its own README) -- the
+# one query in this set where "indexed" and "unindexed" tools are
+# expected to converge.
+TRIGREP_RARE_MARKER
