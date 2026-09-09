@@ -38,4 +38,4 @@ point-lookup: ## Quick wall-clock demos: rowid seek vs scan, indexed vs unindexe
 status: ## Assemble results/bench-status.json from the latest bench / bench-cli raw output
 	python3 report.py
 
-all: bench bench-cli status ## Tier 1 + tier 2, then refresh results/bench-status.json
+all: bench bench-crud bench-cli status ## Tier 1 (engine + CRUD) + tier 2, then refresh results/bench-status.json
