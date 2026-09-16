@@ -11,14 +11,14 @@ path = "src/lib.rs"
 
 [dev-dependencies]
 # The crate under test, pinned by tag; bump with each sqlite-rs release.
-sqlite-rs = { git = "https://github.com/t-rust-db/sqlite-rs", tag = "v0.20.1", default-features = false }
+sqlite-rs = { git = "https://github.com/t-rust-db/sqlite-rs", tag = "v0.23.0", default-features = false }
 criterion = "0.8"
 # Deliberately no `bundled` feature: tier-1 benching compares against the
 # *pinned* oracle (the same sqlite3 gen_fixtures.sh and sqlite-rs's corpus
 # use), not whatever SQLite version rusqlite vendors. `tools/bench_env.sh`
 # points the build at the pinned keg via SQLITE3_LIB_DIR/SQLITE3_INCLUDE_DIR;
 # `benches/engine.rs` asserts the linked version at run time.
-rusqlite = "0.32"
+rusqlite = "0.40"
 
 [[bench]]
 name = "engine"
@@ -52,3 +52,10 @@ test = false
 lto = "thin"
 codegen-units = 1
 debug = true
+
+[patch."https://github.com/t-rust-db/sqlite-rs"]
+sqlite-rs = { path = "../../../sqlite-rs" }
+
+# NOTE: the db-storage patch was removed -- db-storage was absorbed into
+# db-core as its `storage` module (db-core ADR-0016) and the repo no longer
+# exists, so cargo failed to resolve the patch path.
