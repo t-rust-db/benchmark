@@ -2,7 +2,7 @@
 
 .DEFAULT_GOAL := help
 
-.PHONY: help fixtures bench bench-crud bench-v6 bench-skip-scan bench-compile-path bench-cli point-lookup status all
+.PHONY: help fixtures bench bench-quick bench-crud bench-v6 bench-skip-scan bench-compile-path bench-cli point-lookup status all
 
 help: ## Show this help
 	@echo ""
@@ -16,6 +16,13 @@ fixtures: ## Generate the ~1MB/~50MB bench fixtures into target/bench-fixtures/ 
 
 bench: fixtures ## Tier 1 (engine-to-engine): criterion, sqlite-rs vs rusqlite linked to the pinned oracle (benches/engine.rs)
 	@bash -c '. ./tools/bench_env.sh && cargo bench --bench engine'
+
+# Criterion's 100-sample floor makes the full sweep ~25 min (a 0.5 s
+# scenario costs 50 s per engine). 10 samples is enough to see a 3x-vs-5x
+# gap; use `bench` for the committed snapshot. FILTER narrows by scenario
+# substring, e.g. `make bench-quick FILTER=group_by`.
+bench-quick: fixtures ## Tier 1 in ~3 min: 10 samples, 1 s warm-up, 3 s measurement; FILTER=<substring> for one scenario
+	@bash -c '. ./tools/bench_env.sh && cargo bench --bench engine -- --sample-size 10 --warm-up-time 1 --measurement-time 3 $(FILTER)'
 
 bench-crud: fixtures ## Tier 1 full-CRUD scenarios: reads + INSERT/UPDATE/DELETE vs oracle (benches/crud.rs)
 	@bash -c '. ./tools/bench_env.sh && cargo bench --bench crud'

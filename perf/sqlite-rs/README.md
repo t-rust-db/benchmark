@@ -22,7 +22,8 @@ unindexed JOIN). `make status` folds the latest raw output into
 ## Usage
 
 ```bash
-make bench          # tier 1, generates target/bench-fixtures/ on first run
+make bench          # tier 1, generates target/bench-fixtures/ on first run (~25 min: criterion's 100-sample floor)
+make bench-quick    # tier 1 in ~3 min (10 samples); FILTER=group_by for one scenario
 make bench-cli      # tier 2 CLI (needs hyperfine)
 make status         # refresh results/bench-status.json
 ```
