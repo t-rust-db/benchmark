@@ -115,6 +115,17 @@ for query in queries/*.sql; do
     echo "=== $name ==="
     echo "    $sql"
 
+    # Both engines must emit the full result set. DuckDB's default "duckbox"
+    # mode renders at most 40 rows (benchmark#10) -- `-csv` prints them all,
+    # and the row-count check below refuses to time an unequal comparison.
+    ours_rows="$("$BIN" -c "$sql" "$LINKS/bench.parquet" "$LINKS/bench_customers.parquet" | tail -n +2 | wc -l | tr -d ' ')"
+    theirs_rows="$(duckdb -init "$INIT" -batch -noheader -csv -c "$sql" | wc -l | tr -d ' ')"
+    if [ "$ours_rows" != "$theirs_rows" ]; then
+        echo "error: $name: column-rs emitted $ours_rows rows, duckdb emitted $theirs_rows -- not comparable" >&2
+        exit 1
+    fi
+    echo "    rows emitted by both engines: $ours_rows"
+
     hyperfine --warmup "$WARMUP" --min-runs "$MIN_RUNS" \
         --command-name "column-rs" \
         --export-json "$RESULTS/${name}_column-rs.json" \
@@ -123,11 +134,11 @@ for query in queries/*.sql; do
     hyperfine --warmup "$WARMUP" --min-runs "$MIN_RUNS" \
         --command-name "duckdb" \
         --export-json "$RESULTS/${name}_duckdb.json" \
-        "duckdb -init $INIT -batch -noheader -c \"$sql\""
+        "duckdb -init $INIT -batch -noheader -csv -c \"$sql\""
 
     {
         echo "column-rs $(peak_rss_kb "$BIN" -c "$sql" "$LINKS/bench.parquet" "$LINKS/bench_customers.parquet")"
-        echo "duckdb $(peak_rss_kb duckdb -init "$INIT" -batch -noheader -c "$sql")"
+        echo "duckdb $(peak_rss_kb duckdb -init "$INIT" -batch -noheader -csv -c "$sql")"
     } > "$RESULTS/${name}_memory.txt"
 
     echo
