@@ -57,6 +57,10 @@ fi
 
 ORACLE_PREFIX="$(cd "$(dirname "$ORACLE")/.." && pwd)"
 export ORACLE_SQLITE3="$ORACLE"
+# Also make a bare `sqlite3` resolve to the pin, so ad-hoc checks in the
+# same shell (`sqlite3 db "<sql>" | md5`) compare against the oracle the
+# harness uses, not whatever /usr/bin/sqlite3 the OS ships.
+export PATH="$(dirname "$ORACLE"):$PATH"
 export SQLITE3_LIB_DIR="$ORACLE_PREFIX/lib"
 export SQLITE3_INCLUDE_DIR="$ORACLE_PREFIX/include"
 export DYLD_LIBRARY_PATH="$SQLITE3_LIB_DIR${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}"
