@@ -192,8 +192,8 @@ checksum = "460fbee9c2c2f33933d720630a6a0bac33ba7053db5344fac858d4b8952d77d5"
 
 [[package]]
 name = "db-core"
-version = "0.101.0"
-source = "git+https://github.com/t-rust-db/db-core?tag=v0.101.0#d35c04108857707075831f7a9d7c66724668bd8c"
+version = "0.111.0"
+source = "git+https://github.com/t-rust-db/db-core?tag=v0.111.0#3fe2b09c83862220917be1fe2b92ee99ca0ebd9f"
 
 [[package]]
 name = "either"
@@ -576,7 +576,7 @@ checksum = "b9be42f50aa861c555654aa3a37f52f4b1074bacf4e48fe0ef7fa584e80f1f0f"
 
 [[package]]
 name = "sqlite-rs"
-version = "0.25.2"
+version = "0.25.3"
 dependencies = [
  "db-core",
 ]
