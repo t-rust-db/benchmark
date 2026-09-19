@@ -11,7 +11,7 @@ path = "src/lib.rs"
 
 [dev-dependencies]
 # The crate under test, pinned by tag; bump with each sqlite-rs release.
-sqlite-rs = { git = "https://github.com/t-rust-db/sqlite-rs", tag = "v0.25.3", default-features = false }
+sqlite-rs = { git = "https://github.com/t-rust-db/sqlite-rs", tag = "v0.25.4", default-features = false }
 criterion = "0.8"
 # Deliberately no `bundled` feature: tier-1 benching compares against the
 # *pinned* oracle (the same sqlite3 gen_fixtures.sh and sqlite-rs's corpus
