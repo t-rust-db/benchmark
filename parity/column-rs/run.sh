@@ -23,12 +23,12 @@
 # order:
 #   1. $COLUMN_RS       -- explicit path to a column-rs binary, if set
 #   2. `column-rs` on $PATH -- a globally installed/linked build
-#   3. ../../../column-rs/target/release/column-rs -- i.e. t-rust-db/column-rs
+#   3. ../../../tools/target/release/column-rs -- i.e. t-rust-db/tools
 #      built in place, the normal case when this benchmark repo is checked
-#      out as a sibling of column-rs under t-rust-db/ (the standard layout)
+#      out as a sibling of tools under t-rust-db/ (the standard layout)
 #
 # The fallback does NOT try to `cargo build` column-rs on your behalf --
-# build it yourself first (`cd ../../../column-rs && cargo build --release`)
+# build it yourself first (`cd ../../../tools && cargo build --release -p column-rs`)
 # so this script stays a pure benchmark runner, not a build orchestrator for
 # a product it doesn't own.
 set -euo pipefail
@@ -51,13 +51,13 @@ if [ -n "${COLUMN_RS:-}" ]; then
 elif command -v column-rs >/dev/null 2>&1; then
     BIN="$(command -v column-rs)"
 else
-    BIN="$ROOT/../../../column-rs/target/release/column-rs"
+    BIN="$ROOT/../../../tools/target/release/column-rs"
 fi
 
 if [ ! -x "$BIN" ]; then
     echo "error: no column-rs binary found at '$BIN'" >&2
     echo "  set \$COLUMN_RS to an explicit binary path, or put column-rs on \$PATH," >&2
-    echo "  or build it in place: (cd ../../../column-rs && cargo build --release)" >&2
+    echo "  or build it in place: (cd ../../../tools && cargo build --release -p column-rs)" >&2
     exit 1
 fi
 

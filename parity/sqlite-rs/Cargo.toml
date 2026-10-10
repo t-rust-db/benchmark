@@ -11,8 +11,10 @@ path = "src/lib.rs"
 
 # Library-level checks (v01's dump comparison) link the crate under test;
 # everything else drives the `sqlite-rs` CLI binary resolved at run time
-# (see README: $SQLITE_RS -> PATH -> ../../../sqlite-rs/target/release).
+# (see README: $SQLITE_RS -> PATH -> ../../../tools/sqlite-rs/target/release).
 [dev-dependencies]
+# sqlite-rs moved into t-rust-db/tools; the archived t-rust-db/sqlite-rs
+# still serves this tag. Move to a tools tag on the next bump.
 sqlite-rs = { git = "https://github.com/t-rust-db/sqlite-rs", tag = "v0.20.1", default-features = false }
 
 [[test]]

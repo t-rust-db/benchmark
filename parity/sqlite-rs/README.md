@@ -1,6 +1,6 @@
 # sqlite-rs oracle parity suite
 
-Oracle parity suite for [sqlite-rs](https://github.com/t-rust-db/sqlite-rs),
+Oracle parity suite for [sqlite-rs](https://github.com/t-rust-db/tools/tree/main/sqlite-rs),
 ported out of sqlite-rs's own `tests/parity/` (t-rust-db/sqlite-rs#72 and
 onwards) so full oracle parity testing lives here, alongside every other
 t-rust-db product's parity and performance runs, decoupled from the
@@ -18,7 +18,7 @@ exist yet is `#[ignore]`d with the ticket that will flip it.
 
 ```bash
 # 1. Build the binary under test (any sqlite-rs checkout; release build)
-(cd ../../../sqlite-rs && cargo build --release)
+(cd ../../../tools && cargo build --release -p sqlite-rs)
 
 # 2. Run
 make test          # or: cargo test --test parity
@@ -29,8 +29,8 @@ make run           # with per-case output
 
 | what | order |
 |---|---|
-| `sqlite-rs` binary | `$SQLITE_RS` → `sqlite-rs` on `$PATH` → `$SQLITE_RS_REPO/target/release/sqlite-rs` |
-| sqlite-rs checkout (fixtures, `tools/gen_fixtures.sh`) | `$SQLITE_RS_REPO` → `../../../sqlite-rs` (sibling under t-rust-db/) |
+| `sqlite-rs` binary | `$SQLITE_RS` → `sqlite-rs` on `$PATH` → `$SQLITE_RS_REPO/target/release/sqlite-rs` (sqlite-rs's own `make` target dir) → `$SQLITE_RS_REPO/../target/release/sqlite-rs` (the tools workspace target dir) |
+| sqlite-rs checkout (fixtures, `tools/gen_fixtures.sh`) | `$SQLITE_RS_REPO` → `../../../tools/sqlite-rs` (the tools checkout, a sibling under t-rust-db/) |
 | oracle `sqlite3` | `$ORACLE_SQLITE3` → Homebrew paths → `sqlite3` on `$PATH`; must report 3.53.4 and not be a codec build, else every case is skipped, not failed |
 
 The library-level checks (v01's dump comparison) link `sqlite-rs` as a

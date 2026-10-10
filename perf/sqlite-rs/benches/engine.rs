@@ -511,9 +511,9 @@ fn bench_transactions(c: &mut Criterion) {
 /// walk across its 14-page overflow chain.
 fn bench_overflow_payload(c: &mut Criterion) {
     // The committed corpus fixture lives in the sqlite-rs checkout:
-    // `$SQLITE_RS_REPO`, else the sibling `../../../sqlite-rs`.
+    // `$SQLITE_RS_REPO`, else the sibling `../../../tools/sqlite-rs`.
     let repo = std::env::var("SQLITE_RS_REPO").map(PathBuf::from).unwrap_or_else(|_| {
-        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../sqlite-rs")
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../tools/sqlite-rs")
     });
     let path = repo.join("tests/corpus/fixtures/btrees/overflow_multi_page.db");
     let path = path.as_path();

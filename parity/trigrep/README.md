@@ -1,6 +1,6 @@
 # trigrep vs ripgrep (vs tgrep) parity benchmark
 
-Benchmark for [trigrep](https://github.com/t-rust-db/trigrep) (`tg`): a
+Benchmark for [trigrep](https://github.com/t-rust-db/tools/tree/main/trigrep) (`tg`): a
 serverless, per-root cached alternative to
 [microsoft/tgrep](https://github.com/microsoft/tgrep)'s trigram-indexed
 grep. Runs every pattern in `queries/*.txt` against trigrep and
@@ -9,8 +9,8 @@ scan, the baseline an index is supposed to beat — and, if a `tgrep` binary
 is resolved, against tgrep's own server too.
 
 Searches a **real** directory tree, not synthetic data: by default
-`../../../sqlite-rs` — a real, single git work tree (161 `.rs` files as of
-2026-09-09), so trigrep's git integration correctly respects its
+`../../../tools/sqlite-rs` — sqlite-rs inside the real `tools` git work tree
+(164 `.rs` files as of 2026-10-10), so trigrep's git integration correctly respects its
 `.gitignore`. The raw `t-rust-db` org checkout is *not* one git repo itself,
 so a first attempt defaulting to it walked every sibling crate's `target/`
 directory and never finished — found by trying it, not assumed. Point this
@@ -43,11 +43,11 @@ and also writes it to `results/<run>/report.md`.
 This repo does not build trigrep, ripgrep or tgrep, and does not generate
 the corpus.
 
-- **corpus** — `$CORPUS_ROOT` → `../../../sqlite-rs` (a real sibling repo,
-  the standard layout when this repo is a sibling of `trigrep` etc. under
+- **corpus** — `$CORPUS_ROOT` → `../../../tools/sqlite-rs` (a real git work
+  tree, the standard layout when this repo is a sibling of `tools` under
   `t-rust-db/`).
-- **trigrep** — `$TG` → `tg` on `$PATH` → `../../../trigrep/target/release/tg`.
-  Build it: `cd ../../../trigrep && cargo build --release`.
+- **trigrep** — `$TG` → `tg` on `$PATH` → `../../../tools/target/release/tg`.
+  Build it: `cd ../../../tools && cargo build --release -p trigrep`.
 - **ripgrep** — `$RG` → `rg` on `$PATH`. Required (the baseline); install
   via your package manager or `cargo install ripgrep`.
 - **tgrep** — `$TGREP` → `tgrep` on `$PATH` → skipped entirely if neither

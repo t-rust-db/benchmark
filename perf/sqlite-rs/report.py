@@ -22,7 +22,7 @@ import os
 
 REPO_ROOT = Path(__file__).parent
 SQLITE_RS_REPO = Path(
-    os.environ.get("SQLITE_RS_REPO", REPO_ROOT / "../../../sqlite-rs")
+    os.environ.get("SQLITE_RS_REPO", REPO_ROOT / "../../../tools/sqlite-rs")
 ).resolve()
 CRITERION_DIR = REPO_ROOT / "target" / "criterion"
 HYPERFINE_DIR = Path(
