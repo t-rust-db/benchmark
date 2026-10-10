@@ -1,6 +1,6 @@
 # sqlite-rs performance benchmarks
 
-Performance benchmarks for [sqlite-rs](https://github.com/t-rust-db/sqlite-rs),
+Performance benchmarks for [sqlite-rs](https://github.com/t-rust-db/tools/tree/main/sqlite-rs),
 ported out of its `tests/performance/` and `tools/bench_*`
 (t-rust-db/sqlite-rs#22) so performance work lives here, alongside every other
 t-rust-db product's parity and performance runs, decoupled from the product's
@@ -32,7 +32,7 @@ make status         # refresh results/bench-status.json
 
 | what | order |
 |---|---|
-| sqlite-rs checkout (`tools/gen_fixtures.sh --bench`, the pinned-oracle version in `[package.metadata.oracle]`, the committed corpus fixture `engine.rs` reuses) | `$SQLITE_RS_REPO` → `../../../sqlite-rs` (sibling under t-rust-db/) |
+| sqlite-rs checkout (`tools/gen_fixtures.sh --bench`, the pinned-oracle version in `[package.metadata.oracle]`, the committed corpus fixture `engine.rs` reuses) | `$SQLITE_RS_REPO` → `../../../tools/sqlite-rs` (the tools checkout, a sibling under t-rust-db/) |
 | pinned `sqlite3` (must report the pinned version, non-codec) | `$ORACLE_SQLITE3` → Homebrew keg paths; `tools/bench_env.sh` also exports `SQLITE3_LIB_DIR`/`SQLITE3_INCLUDE_DIR` so rusqlite links that keg, never a vendored SQLite, and `benches/engine.rs` asserts the linked version at run time |
 | `sqlite-rs` binary (tier 2 CLI) | `$SQLITE_RS` → `sqlite-rs` on `$PATH` → `$SQLITE_RS_REPO/target/release/sqlite-rs` (built there if missing) |
 | fixtures | `$BENCH_FIXTURES_DIR` (default `target/bench-fixtures/`, gitignored) |

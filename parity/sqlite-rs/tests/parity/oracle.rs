@@ -21,15 +21,15 @@ use std::process::Command;
 /// the agreement.
 pub const ORACLE_VERSION: &str = "3.53.4";
 
-/// The t-rust-db/sqlite-rs checkout whose committed corpus fixtures and
+/// The sqlite-rs checkout (inside t-rust-db/tools) whose committed corpus fixtures and
 /// `tools/gen_fixtures.sh` this suite reads: `$SQLITE_RS_REPO` if set,
-/// else the sibling `../../../sqlite-rs` (benchmark/ and sqlite-rs/ checked
+/// else the sibling `../../../tools/sqlite-rs` (benchmark/ and tools/ checked
 /// out next to each other under t-rust-db/, the standard layout).
 pub fn sqlite_rs_repo() -> PathBuf {
     if let Ok(dir) = std::env::var("SQLITE_RS_REPO") {
         return PathBuf::from(dir);
     }
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../sqlite-rs")
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../tools/sqlite-rs")
 }
 
 pub fn corpus_dir() -> PathBuf {

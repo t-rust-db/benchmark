@@ -8,7 +8,7 @@ help: ## Show this help
 	@echo ""
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z0-9_-]+:.*?## / { printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 	@echo ""
-	@echo "  env: SQLITE_RS_REPO=<sqlite-rs checkout> (default ../../../sqlite-rs), ORACLE_SQLITE3=<pinned sqlite3>,"
+	@echo "  env: SQLITE_RS_REPO=<sqlite-rs checkout> (default ../../../tools/sqlite-rs), ORACLE_SQLITE3=<pinned sqlite3>,"
 	@echo "       SQLITE_RS=<binary for bench-cli>, BENCH_FIXTURES_DIR (default target/bench-fixtures)"
 
 fixtures: ## Generate the ~1MB/~50MB bench fixtures into target/bench-fixtures/ via the sqlite-rs checkout's tools/gen_fixtures.sh --bench

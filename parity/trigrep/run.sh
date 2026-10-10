@@ -3,12 +3,12 @@
 # not built for you) parity benchmark.
 #
 # Searches a REAL directory tree, not synthetic data: by default
-# ../../../sqlite-rs -- a real, single git work tree (so trigrep's git
+# ../../../tools/sqlite-rs -- inside a real git work tree (so trigrep's git
 # integration correctly respects its .gitignore, unlike the raw t-rust-db
 # org root, which isn't one git repo itself and made a first draft of
 # this default walk every crate's target/ directory across every sibling
-# -- found by trying it: the run never finished). 161 .rs files as of
-# 2026-09-09. Point it at anything else with $CORPUS_ROOT -- including
+# -- found by trying it: the run never finished). 164 .rs files as of
+# 2026-10-10. Point it at anything else with $CORPUS_ROOT -- including
 # the whole org checkout, if you also exclude target/ some other way.
 #
 #   ./run.sh                        # every query against the default corpus
@@ -33,9 +33,9 @@
 #
 # This repo does not build trigrep, tgrep or ripgrep, and does not
 # generate the corpus -- it needs a real tree, resolved in this order:
-#   corpus:  $CORPUS_ROOT -> ../../../sqlite-rs  (a real sibling repo, the
-#            standard layout when this repo is a sibling of trigrep etc.)
-#   trigrep: $TG on PATH-as-set -> `tg` on $PATH -> ../../../trigrep/target/release/tg
+#   corpus:  $CORPUS_ROOT -> ../../../tools/sqlite-rs  (a real git work tree, the
+#            standard layout when this repo is a sibling of tools)
+#   trigrep: $TG on PATH-as-set -> `tg` on $PATH -> ../../../tools/target/release/tg
 #   ripgrep: $RG               -> `rg` on $PATH (required -- the baseline)
 #   tgrep:   $TGREP            -> `tgrep` on $PATH -> skipped entirely if absent
 #            (microsoft/tgrep is not published to crates.io; build it
@@ -50,7 +50,7 @@ ONLY="${1:-}"
 WARMUP="${WARMUP:-3}"
 MIN_RUNS="${MIN_RUNS:-10}"
 
-CORPUS="${CORPUS_ROOT:-$ROOT/../../../sqlite-rs}"
+CORPUS="${CORPUS_ROOT:-$ROOT/../../../tools/sqlite-rs}"
 if [ ! -d "$CORPUS" ]; then
     echo "error: corpus directory not found: '$CORPUS'" >&2
     echo "  set \$CORPUS_ROOT to a real directory tree to search" >&2
@@ -64,12 +64,12 @@ if [ -n "${TG:-}" ]; then
 elif command -v tg >/dev/null 2>&1; then
     TG_BIN="$(command -v tg)"
 else
-    TG_BIN="$ROOT/../../../trigrep/target/release/tg"
+    TG_BIN="$ROOT/../../../tools/target/release/tg"
 fi
 if [ ! -x "$TG_BIN" ]; then
     echo "error: no trigrep binary found at '$TG_BIN'" >&2
     echo "  set \$TG to an explicit path, put 'tg' on \$PATH, or build in place:" >&2
-    echo "  (cd ../../../trigrep && cargo build --release)" >&2
+    echo "  (cd ../../../tools && cargo build --release -p trigrep)" >&2
     exit 1
 fi
 

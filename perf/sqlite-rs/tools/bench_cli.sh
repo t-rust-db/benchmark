@@ -39,7 +39,8 @@ if [ -z "${SQLITE_RS:-}" ]; then
     SQLITE_RS="$SQLITE_RS_REPO/target/release/sqlite-rs"
     [ -x "$SQLITE_RS" ] || {
       echo "building sqlite-rs (release) in $SQLITE_RS_REPO..." >&2
-      (cd "$SQLITE_RS_REPO" && cargo build --release --bin sqlite-rs --quiet)
+      # sqlite-rs builds into its own target/ inside the tools workspace.
+      (cd "$SQLITE_RS_REPO" && CARGO_TARGET_DIR="$SQLITE_RS_REPO/target" cargo build --release --bin sqlite-rs --quiet)
     }
   fi
 fi

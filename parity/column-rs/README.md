@@ -1,6 +1,6 @@
 # column-rs vs DuckDB parity benchmark
 
-DuckDB parity benchmark for [column-rs](https://github.com/t-rust-db/column-rs),
+DuckDB parity benchmark for [column-rs](https://github.com/t-rust-db/tools/tree/main/column-rs),
 ported out of column-rs's own `benches/` (originally
 [iheitlager/column-rs#100](https://github.com/iheitlager/column-rs)) into
 this repo so parity testing lives alongside every other t-rust-db product's
@@ -35,15 +35,15 @@ its own release cycle. `run.sh` resolves the binary in this order:
 
 1. **`$COLUMN_RS`** — explicit path to a column-rs binary, if set
 2. **`column-rs` on `$PATH`** — a globally installed/linked build
-3. **`../../../column-rs/target/release/column-rs`** — i.e.
-   `t-rust-db/column-rs` built in place, the normal case when this
-   benchmark repo is checked out as a sibling of `column-rs` under
+3. **`../../../tools/target/release/column-rs`** — i.e.
+   the `t-rust-db/tools` workspace built in place, the normal case when
+   this benchmark repo is checked out as a sibling of `tools` under
    `t-rust-db/` (the standard layout)
 
 The fallback does not build column-rs for you:
 
 ```bash
-cd ../../../column-rs && cargo build --release
+cd ../../../tools && cargo build --release -p column-rs
 ```
 
 ## Requirements

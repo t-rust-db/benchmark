@@ -11,6 +11,8 @@ path = "src/lib.rs"
 
 [dev-dependencies]
 # The crate under test, pinned by tag; bump with each sqlite-rs release.
+# sqlite-rs moved into t-rust-db/tools; the archived t-rust-db/sqlite-rs
+# still serves this tag. Move to a tools tag on the next bump.
 sqlite-rs = { git = "https://github.com/t-rust-db/sqlite-rs", tag = "v0.25.4", default-features = false }
 criterion = "0.8"
 # Deliberately no `bundled` feature: tier-1 benching compares against the
@@ -54,7 +56,7 @@ codegen-units = 1
 debug = true
 
 [patch."https://github.com/t-rust-db/sqlite-rs"]
-sqlite-rs = { path = "../../../sqlite-rs" }
+sqlite-rs = { path = "../../../tools/sqlite-rs" }
 
 # NOTE: the db-storage patch was removed -- db-storage was absorbed into
 # db-core as its `storage` module (db-core ADR-0016) and the repo no longer

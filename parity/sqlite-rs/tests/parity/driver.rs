@@ -18,8 +18,9 @@ use std::sync::OnceLock;
 /// The `sqlite-rs` binary under test, resolved once per process in the
 /// same order column-rs's parity benchmark uses for its binary:
 /// `$SQLITE_RS` (explicit path) -> `sqlite-rs` on `$PATH` ->
-/// `../../../sqlite-rs/target/release/sqlite-rs` (a sibling checkout built
-/// in place). Nothing here runs `cargo build` for you.
+/// `../../../tools/sqlite-rs/target/release/sqlite-rs` (built with
+/// sqlite-rs's own `make`) -> `../../../tools/target/release/sqlite-rs` (a
+/// plain workspace build). Nothing here runs `cargo build` for you.
 #[derive(Clone, Copy)]
 pub struct Cli;
 
@@ -36,9 +37,14 @@ fn resolve_cli() -> String {
     if on_path {
         return "sqlite-rs".to_owned();
     }
-    let sibling = crate::oracle::sqlite_rs_repo().join("target/release/sqlite-rs");
-    if sibling.is_file() {
-        return sibling.to_string_lossy().into_owned();
+    let repo = crate::oracle::sqlite_rs_repo();
+    for sibling in [
+        repo.join("target/release/sqlite-rs"),
+        repo.join("../target/release/sqlite-rs"),
+    ] {
+        if sibling.is_file() {
+            return sibling.to_string_lossy().into_owned();
+        }
     }
     panic!(
         "no sqlite-rs binary: set SQLITE_RS=<path>, put sqlite-rs on PATH, or \

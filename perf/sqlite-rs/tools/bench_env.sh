@@ -15,9 +15,9 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # The sqlite-rs checkout: its Cargo.toml `[package.metadata.oracle]` is the
 # single source of the pinned sqlite3 version (sqlite-rs ADR-0005), and its
 # tools/gen_fixtures.sh generates the bench fixtures.
-SQLITE_RS_REPO="${SQLITE_RS_REPO:-$(cd "$REPO_ROOT/../../../sqlite-rs" 2>/dev/null && pwd)}"
+SQLITE_RS_REPO="${SQLITE_RS_REPO:-$(cd "$REPO_ROOT/../../../tools/sqlite-rs" 2>/dev/null && pwd)}"
 [ -n "$SQLITE_RS_REPO" ] && [ -f "$SQLITE_RS_REPO/Cargo.toml" ] || {
-  echo "error: sqlite-rs checkout not found — set SQLITE_RS_REPO (default ../../../sqlite-rs)" >&2
+  echo "error: sqlite-rs checkout not found — set SQLITE_RS_REPO (default ../../../tools/sqlite-rs)" >&2
   return 1 2>/dev/null || exit 1
 }
 export SQLITE_RS_REPO
