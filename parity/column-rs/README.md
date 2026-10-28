@@ -28,6 +28,16 @@ Results land in `results/<size>_<timestamp>/` as hyperfine JSON plus a
 peak-RSS reading per engine; `report.py` renders the comparison table and
 also writes it to `results/<run>/report.md`.
 
+## List queries
+
+`bench` carries two `VARCHAR[]` columns of 0-4 elements per row (every
+tenth row NULL): `tags` over 8 distinct values and `labels` over 1,000.
+`list_not_null_{low,mid}` test a list for NULL without taking it apart,
+and `unnest_group_by_{low,mid}` unnest it and group on the element
+(db-core#802, #809). They need column-rs 0.33.0 or later (tools#80) and
+data generated after they were added: regenerate with `./data/generate.sh`
+if `bench` has no `tags` column.
+
 ## Which column-rs binary?
 
 This repo does not build column-rs itself — it's a separate product with
