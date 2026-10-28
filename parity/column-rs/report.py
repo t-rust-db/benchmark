@@ -26,6 +26,10 @@ ORDER = [
     "group_by",
     "order_by",
     "join",
+    "list_not_null_low",
+    "list_not_null_mid",
+    "unnest_group_by_low",
+    "unnest_group_by_mid",
 ]
 
 TARGET_RATIO = 1.5  # "within 50% of DuckDB" -- the pass bar set in #100.

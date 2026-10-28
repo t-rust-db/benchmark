@@ -15,7 +15,8 @@
 # byte-reproducible across machines.
 #
 # Each size produces two files:
-#   <size>.parquet          fact table: id, amount, region, customer_id
+#   <size>.parquet          fact table: id, amount, region, customer_id,
+#                           tags, labels (VARCHAR[], tools#80)
 #   <size>_customers.parquet  dim table: customer_id, tier  (for the JOIN query)
 #
 # The table name column-rs uses is the file stem, so queries in ../queries/
@@ -65,13 +66,22 @@ generate() {
     # multiply-and-mod keeps it reproducible without an RNG seed, so the fixed
     # thresholds in benches/queries/filter_*.sql select a stable row fraction
     # (median ~5000, 99th percentile ~9900) at every size.
+    # `tags` and `labels` are VARCHAR[] lists of 0-4 elements (~2 per row,
+    # every tenth row NULL) over 8 and 1,000 distinct values: the low- and
+    # mid-cardinality list columns of db-core#809's probe (tools#80).
     duckdb -c "
     COPY (
       SELECT
         i AS id,
         (((i * 2654435761) % 1000000) / 100.0)::DOUBLE AS amount,
         ['north', 'south', 'east', 'west'][(i % 4) + 1] AS region,
-        (i % $customers) AS customer_id
+        (i % $customers) AS customer_id,
+        CASE WHEN i % 10 = 9 THEN NULL
+             ELSE list_transform(range((i * 7) % 5), lambda k: 'tag_' || ((i * 2654435761 + k * 40503) % 8))
+        END AS tags,
+        CASE WHEN i % 10 = 9 THEN NULL
+             ELSE list_transform(range((i * 7) % 5), lambda k: 'label_' || ((i * 2654435761 + k * 40503) % 1000))
+        END AS labels
       FROM range(0, $rows) t(i)
     ) TO '${size}.parquet' (FORMAT PARQUET, COMPRESSION SNAPPY);
     "
