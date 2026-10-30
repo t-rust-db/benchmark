@@ -101,6 +101,12 @@ peak_rss_kb() {
     fi
 }
 
+# Peak RSS of one run varies by tens of MB with no code change (benchmark#21):
+# the median of three runs.
+median_rss_kb() {
+    { peak_rss_kb "$@"; peak_rss_kb "$@"; peak_rss_kb "$@"; } | sort -n | sed -n 2p
+}
+
 echo "column-rs binary: $BIN"
 echo "size=$SIZE  fact=$(du -h "$FACT" | cut -f1)  results=$RESULTS"
 echo
@@ -137,8 +143,8 @@ for query in queries/*.sql; do
         "duckdb -init $INIT -batch -noheader -csv -c \"$sql\""
 
     {
-        echo "column-rs $(peak_rss_kb "$BIN" -c "$sql" "$LINKS/bench.parquet" "$LINKS/bench_customers.parquet")"
-        echo "duckdb $(peak_rss_kb duckdb -init "$INIT" -batch -noheader -csv -c "$sql")"
+        echo "column-rs $(median_rss_kb "$BIN" -c "$sql" "$LINKS/bench.parquet" "$LINKS/bench_customers.parquet")"
+        echo "duckdb $(median_rss_kb duckdb -init "$INIT" -batch -noheader -csv -c "$sql")"
     } > "$RESULTS/${name}_memory.txt"
 
     echo

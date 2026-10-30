@@ -25,8 +25,13 @@ the *identical* SQL text — neither engine is handed a rewritten query.
 ```
 
 Results land in `results/<size>_<timestamp>/` as hyperfine JSON plus a
-peak-RSS reading per engine; `report.py` renders the comparison table and
-also writes it to `results/<run>/report.md`.
+peak-RSS reading per engine (the median of three runs); `report.py`
+renders the comparison table, using each query's median time, and also
+writes it to `results/<run>/report.md`.
+
+`join` groups on the 3 customer tiers; `join_many_groups` runs the same
+join grouped by customer, 100K groups at `large`, where merging the
+per-row-group partial aggregates dominates (db-core#863).
 
 ## List queries
 
