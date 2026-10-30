@@ -3,3 +3,6 @@ data/*.parquet
 
 # Benchmark run output
 results/
+
+# Heap profile written by a dhat-instrumented column-rs build
+dhat-heap.json

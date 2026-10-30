@@ -36,14 +36,15 @@ TARGET_RATIO = 1.5  # "within 50% of DuckDB" -- the pass bar set in #100.
 BINARY_SIZE_LIMIT = 5 * 1024 * 1024
 
 
-def mean_seconds(path):
-    """Mean wall time from a hyperfine JSON export, or None if unusable."""
+def median_seconds(path):
+    """Median wall time from a hyperfine JSON export, or None if unusable:
+    one slow outlier run moves a mean, not a median (benchmark#21)."""
     try:
         with open(path) as fh:
             results = json.load(fh)["results"]
     except (OSError, ValueError, KeyError):
         return None
-    return results[0]["mean"] if results else None
+    return results[0]["median"] if results else None
 
 
 def peak_rss_kb(path, engine):
@@ -83,8 +84,8 @@ def main(argv):
 
     rows = []
     for name in names:
-        ours = mean_seconds(run / f"{name}_column-rs.json")
-        theirs = mean_seconds(run / f"{name}_duckdb.json")
+        ours = median_seconds(run / f"{name}_column-rs.json")
+        theirs = median_seconds(run / f"{name}_duckdb.json")
         ratio = ours / theirs if ours and theirs else None
         rows.append((name, ours, theirs, ratio,
                      peak_rss_kb(run / f"{name}_memory.txt", "column-rs"),
