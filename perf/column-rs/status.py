@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Records the latest parity run in results/bench-status.json under the
-column-rs version that produced it (benchmark#23): the committed,
-release-to-release history `../../parity/column-rs/results/` (gitignored)
-doesn't keep. One entry per column-rs version; re-running a version
-replaces its entry.
+column-rs version and data size that produced it (benchmark#23): the
+committed, release-to-release history `../../parity/column-rs/results/`
+(gitignored) doesn't keep. One entry per column-rs version and size;
+re-running one replaces its entry.
 
 Usage (normally via `make status`, which runs the parity suite first):
     python3 status.py --binary <column-rs> [--size large] [--tools-repo ../../../tools]
@@ -103,9 +103,10 @@ def main():
     }
 
     status = json.loads(STATUS.read_text()) if STATUS.exists() else {"releases": []}
-    releases = [r for r in status["releases"] if r["column_rs"] != entry["column_rs"]]
+    key = (entry["column_rs"], entry["size"])
+    releases = [r for r in status["releases"] if (r["column_rs"], r["size"]) != key]
     releases.append(entry)
-    releases.sort(key=lambda r: tuple(int(p) for p in r["column_rs"].split(".")))
+    releases.sort(key=lambda r: (tuple(int(p) for p in r["column_rs"].split(".")), r["size"]))
     STATUS.parent.mkdir(exist_ok=True)
     STATUS.write_text(json.dumps({"releases": releases}, indent=2) + "\n")
     worst = max(queries, key=lambda q: q["ratio"])

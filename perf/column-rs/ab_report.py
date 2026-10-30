@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Renders an `ab.sh` run (benchmark#23): per query, the median of every
-timed run of each build across all rounds, the median of its three peak-RSS
-readings, and the change from old to new. Prints the table and writes it to
+timed run of each side across all rounds, the median of its three peak-RSS
+readings, and b's change from a. Prints the table and writes it to
 <run>/report.md.
 
 Usage:
@@ -15,8 +15,8 @@ from pathlib import Path
 
 
 def times(run, name):
-    """Every timed run of each build across the query's rounds, in seconds."""
-    out = {"old": [], "new": []}
+    """Every timed run of each side across the query's rounds, in seconds."""
+    out = {"a": [], "b": []}
     for path in sorted(run.glob(f"{name}_round*.json")):
         for result in json.loads(path.read_text())["results"]:
             out[result["command"]].extend(result["times"])
@@ -24,15 +24,15 @@ def times(run, name):
 
 
 def rss_kb(run, name):
-    out = {"old": [], "new": []}
+    out = {"a": [], "b": []}
     for line in (run / f"{name}_memory.txt").read_text().splitlines():
-        build, _, value = line.partition(" ")
-        out[build].append(int(value))
-    return {build: statistics.median(v) for build, v in out.items() if v}
+        side, _, value = line.partition(" ")
+        out[side].append(int(value))
+    return {side: statistics.median(v) for side, v in out.items() if v}
 
 
-def change(old, new):
-    return f"{(new - old) / old * 100:+.0f}%" if old else "-"
+def change(a, b):
+    return f"{(b - a) / a * 100:+.0f}%" if a else "-"
 
 
 def main(argv):
@@ -40,17 +40,17 @@ def main(argv):
         sys.exit(__doc__)
     run = Path(argv[1])
     names = sorted({p.name.split("_round")[0] for p in run.glob("*_round*.json")})
-    lines = [line.split(" ", 2) for line in (run / "binaries.txt").read_text().splitlines()]
+    lines = [line.split(" ", 2) + [""] for line in (run / "sides.txt").read_text().splitlines()]
     out = [f"# A/B: {run.name}", ""]
-    out += [f"- {build}: `{path}` ({version})" for build, path, version in lines]
-    out += ["", "| Query | old | new | time | old RSS | new RSS | RSS |",
-            "|-------|-----|-----|------|---------|---------|-----|"]
+    out += [f"- {side}: `{path}` {version}".rstrip() for side, path, version, *_ in lines]
+    out += ["", "| Query | a | b | b vs a | a RSS | b RSS | b vs a |",
+            "|-------|---|---|--------|-------|-------|--------|"]
     for name in names:
         t = {b: statistics.median(v) for b, v in times(run, name).items()}
         m = rss_kb(run, name)
-        out.append(f"| {name} | {t['old'] * 1000:.1f} ms | {t['new'] * 1000:.1f} ms | "
-                   f"{change(t['old'], t['new'])} | {m['old'] / 1024:.0f} MB | "
-                   f"{m['new'] / 1024:.0f} MB | {change(m['old'], m['new'])} |")
+        out.append(f"| {name} | {t['a'] * 1000:.1f} ms | {t['b'] * 1000:.1f} ms | "
+                   f"{change(t['a'], t['b'])} | {m['a'] / 1024:.0f} MB | "
+                   f"{m['b'] / 1024:.0f} MB | {change(m['a'], m['b'])} |")
     report = "\n".join(out) + "\n"
     (run / "report.md").write_text(report)
     print(report)
