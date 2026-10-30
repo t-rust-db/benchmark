@@ -118,10 +118,14 @@ def main(argv):
         print(f"- Binary size: {size / 1024 / 1024:.2f} MB (target <= 5 MB) — {ok}")
 
     # Non-zero exit when any query misses the bar, so a local run can be
-    # scripted against. Deliberately not wired into CI: shared runners vary
-    # too much between runs to compare two engines on (`order_by` measured
+    # scripted against: 3, apart from the errors above, so a caller can
+    # still record a complete run that misses it (perf/column-rs `make
+    # status`). Deliberately not wired into CI: shared runners vary too
+    # much between runs to compare two engines on (`order_by` measured
     # 0.89x locally and 2.19x on a hosted runner from identical data).
-    return 0 if ratios and max(ratios) <= TARGET_RATIO else 1
+    if not ratios:
+        return 1
+    return 0 if max(ratios) <= TARGET_RATIO else 3
 
 
 if __name__ == "__main__":

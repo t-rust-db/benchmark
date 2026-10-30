@@ -1,0 +1,131 @@
+{
+  "releases": [
+    {
+      "column_rs": "0.38.0",
+      "db_core": "0.214.0",
+      "date": "2026-10-30",
+      "size": "large",
+      "parity_run": "large_20261030_185652",
+      "binary_size_bytes": 4406896,
+      "hardware": {
+        "platform": "macOS-26.7.2-arm64-arm-64bit-Mach-O",
+        "cpu": "Apple M4 Pro",
+        "cpu_count": 12
+      },
+      "queries": [
+        {
+          "query": "agg_count",
+          "column_rs_ms": 2.94,
+          "duckdb_ms": 14.72,
+          "ratio": 0.2,
+          "column_rs_rss_mb": 4,
+          "duckdb_rss_mb": 20
+        },
+        {
+          "query": "agg_sum",
+          "column_rs_ms": 15.68,
+          "duckdb_ms": 23.86,
+          "ratio": 0.66,
+          "column_rs_rss_mb": 45,
+          "duckdb_rss_mb": 51
+        },
+        {
+          "query": "filter_1pct",
+          "column_rs_ms": 24.04,
+          "duckdb_ms": 195.28,
+          "ratio": 0.12,
+          "column_rs_rss_mb": 57,
+          "duckdb_rss_mb": 512
+        },
+        {
+          "query": "filter_50pct",
+          "column_rs_ms": 262.25,
+          "duckdb_ms": 1995.51,
+          "ratio": 0.13,
+          "column_rs_rss_mb": 380,
+          "duckdb_rss_mb": 572
+        },
+        {
+          "query": "group_by",
+          "column_rs_ms": 24.49,
+          "duckdb_ms": 27.38,
+          "ratio": 0.89,
+          "column_rs_rss_mb": 52,
+          "duckdb_rss_mb": 59
+        },
+        {
+          "query": "join",
+          "column_rs_ms": 47.69,
+          "duckdb_ms": 42.5,
+          "ratio": 1.12,
+          "column_rs_rss_mb": 89,
+          "duckdb_rss_mb": 84
+        },
+        {
+          "query": "join_many_groups",
+          "column_rs_ms": 252.57,
+          "duckdb_ms": 109.37,
+          "ratio": 2.31,
+          "column_rs_rss_mb": 529,
+          "duckdb_rss_mb": 457
+        },
+        {
+          "query": "list_not_null_low",
+          "column_rs_ms": 13.33,
+          "duckdb_ms": 40.8,
+          "ratio": 0.33,
+          "column_rs_rss_mb": 49,
+          "duckdb_rss_mb": 31
+        },
+        {
+          "query": "list_not_null_mid",
+          "column_rs_ms": 13.33,
+          "duckdb_ms": 41.26,
+          "ratio": 0.32,
+          "column_rs_rss_mb": 50,
+          "duckdb_rss_mb": 36
+        },
+        {
+          "query": "order_by",
+          "column_rs_ms": 27.98,
+          "duckdb_ms": 32.67,
+          "ratio": 0.86,
+          "column_rs_rss_mb": 92,
+          "duckdb_rss_mb": 68
+        },
+        {
+          "query": "scan",
+          "column_rs_ms": 11.84,
+          "duckdb_ms": 18.75,
+          "ratio": 0.63,
+          "column_rs_rss_mb": 26,
+          "duckdb_rss_mb": 35
+        },
+        {
+          "query": "semi_join",
+          "column_rs_ms": 38.98,
+          "duckdb_ms": 39.46,
+          "ratio": 0.99,
+          "column_rs_rss_mb": 65,
+          "duckdb_rss_mb": 73
+        },
+        {
+          "query": "unnest_group_by_low",
+          "column_rs_ms": 23.71,
+          "duckdb_ms": 61.1,
+          "ratio": 0.39,
+          "column_rs_rss_mb": 71,
+          "duckdb_rss_mb": 41
+        },
+        {
+          "query": "unnest_group_by_mid",
+          "column_rs_ms": 29.25,
+          "duckdb_ms": 66.17,
+          "ratio": 0.44,
+          "column_rs_rss_mb": 70,
+          "duckdb_rss_mb": 48
+        }
+      ]
+    }
+  ]
+}
