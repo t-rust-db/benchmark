@@ -1,0 +1,2 @@
+# A/B runs -- `make ab`; the committed snapshot is results/bench-status.json
+results/ab_*/
