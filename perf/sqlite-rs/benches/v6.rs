@@ -47,7 +47,7 @@ use sqlite_rs::vfs::{companion_path, AnyVfs, PageSource, UnixVfs};
 /// Same literal-not-imported-from-Cargo.toml shape as `engine.rs`'s own
 /// `ORACLE_VERSION`: needed at compile time (`starts_with` below), and
 /// held to the pin by `tools/version_pin.py` so it can't drift silently.
-pub const ORACLE_VERSION: &str = "3.53.4";
+pub const ORACLE_VERSION: &str = "3.54.1";
 
 /// Aborts the bench run on a setup/execution failure — same
 /// fail-loudly-not-panic shape as `engine.rs::fail` (a bare `panic!` is

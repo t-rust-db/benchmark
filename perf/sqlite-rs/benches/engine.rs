@@ -41,7 +41,7 @@ use sqlite_rs::schema::{read_schema, TableSchema};
 use sqlite_rs::vdbe::{execute_transaction_step, execute_with_db, Program};
 use sqlite_rs::vfs::{PageSource, UnixVfs, Vfs, VfsPageSource};
 
-pub const ORACLE_VERSION: &str = "3.53.4";
+pub const ORACLE_VERSION: &str = "3.54.1";
 
 /// The tier-1 scenarios from #111/#112 (single-table V2) plus #301's
 /// V4 join/aggregate/subquery additions, run against the fixture tables
