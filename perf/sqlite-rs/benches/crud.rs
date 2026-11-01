@@ -41,7 +41,7 @@ use sqlite_rs::schema::{read_schema, TableSchema};
 use sqlite_rs::vdbe::{execute_with_db, execute_with_writable_db, Program};
 use sqlite_rs::vfs::{PageSource, UnixVfs};
 
-pub const ORACLE_VERSION: &str = "3.53.4";
+pub const ORACLE_VERSION: &str = "3.54.1";
 
 /// Statement kind, so `bench_scenario` knows whether it needs read-only
 /// setup (once) or a fresh per-iteration copy (writes).

@@ -19,7 +19,7 @@ use std::process::Command;
 /// Must equal Cargo.toml's `[package.metadata.oracle] version` — a
 /// `const` cannot read it at run time, so `make version-pin` enforces
 /// the agreement.
-pub const ORACLE_VERSION: &str = "3.53.4";
+pub const ORACLE_VERSION: &str = "3.54.1";
 
 /// The sqlite-rs checkout (inside t-rust-db/tools) whose committed corpus fixtures and
 /// `tools/gen_fixtures.sh` this suite reads: `$SQLITE_RS_REPO` if set,
