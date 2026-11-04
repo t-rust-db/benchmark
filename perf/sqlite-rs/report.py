@@ -187,6 +187,16 @@ def tier1_results():
     return results
 
 
+def mean_seconds(run):
+    """A hyperfine run's mean wall-clock time in seconds: `mean` in the
+    1.x JSON, `summary.time_wall_clock.mean` in 2.x (schema_version 2)."""
+    if "mean" in run:
+        return run["mean"]
+    wall = run["summary"]["time_wall_clock"]
+    assert wall.get("unit", "second") == "second", wall.get("unit")
+    return wall["mean"]
+
+
 def tier2_results():
     results = []
     if not HYPERFINE_DIR.exists():
@@ -202,9 +212,9 @@ def tier2_results():
                 "comparison": path.stem,
                 "ours_command": ours["command"],
                 "oracle_command": oracle["command"],
-                "ours_mean_s": ours["mean"],
-                "oracle_mean_s": oracle["mean"],
-                "ratio_ours_over_oracle": ours["mean"] / oracle["mean"],
+                "ours_mean_s": mean_seconds(ours),
+                "oracle_mean_s": mean_seconds(oracle),
+                "ratio_ours_over_oracle": mean_seconds(ours) / mean_seconds(oracle),
             }
         )
     return results
