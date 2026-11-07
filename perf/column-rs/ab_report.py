@@ -14,12 +14,25 @@ import sys
 from pathlib import Path
 
 
+def side_times(result):
+    """A hyperfine result's side (`-n a`/`-n b`) and its wall-clock times in
+    seconds: `command` and `times` in the 1.x JSON; `name` and each
+    `measurements[].time_wall_clock` in 2.x (schema_version 2), where
+    `command` is the full command line."""
+    if "times" in result:
+        return result["command"], result["times"]
+    walls = [m["time_wall_clock"] for m in result["measurements"]]
+    assert all(w.get("unit", "second") == "second" for w in walls), walls
+    return result["name"], [w["value"] for w in walls]
+
+
 def times(run, name):
     """Every timed run of each side across the query's rounds, in seconds."""
     out = {"a": [], "b": []}
     for path in sorted(run.glob(f"{name}_round*.json")):
         for result in json.loads(path.read_text())["results"]:
-            out[result["command"]].extend(result["times"])
+            side, values = side_times(result)
+            out[side].extend(values)
     return out
 
 
